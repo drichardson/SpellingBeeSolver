@@ -56,7 +56,7 @@ if __name__ == '__main__':
         print("must_have_letter must be 1 character long.")
         sys.exit(1)
 
-    print(f"valid: {valid}, must_have: {must_have}")
+    # print(f"valid: {valid}, must_have: {must_have}")
     english_words = load_words()
     print("\n".join(sorted(solve(english_words, valid, must_have))))
     # print(list(solve(["testing", "block", "lack", "howdy", "black", "wok", "law", "back"], "bawcokl", "l")))
