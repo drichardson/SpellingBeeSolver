@@ -3,8 +3,7 @@
 import os
 import sys
 
-def load_words():
-    path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'english-words/words_alpha.txt')
+def load_words(path):
     with open(path) as word_file:
         valid_words = set(word_file.read().split())
 
@@ -35,18 +34,27 @@ def solve(all_words, valid_letters, must_have_letter):
 
 def usage():
     print("""
-    solve.py <letters> <must_have_letter>
+    solve.py <letters> <must_have_letter> [word_list]
+
+        word_list defaults to corncob_lowercase.txt. You can also provide your
+        own word_list, which should be a text file of newline separated lower case
+        words.
+        
     Usage:
       ./solve.py bawcokl l
     """)
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
+    if len(sys.argv) < 3:
         usage()
         sys.exit(1)
 
     valid = sys.argv[1]
     must_have = sys.argv[2]
+    word_list_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'corncob_lowercase.txt')
+
+    if len(sys.argv) >= 4:
+        word_list_path = sys.argv[3]
 
     if len(valid) != 7:
         print("letters must be 7 characters long")
@@ -56,9 +64,8 @@ if __name__ == '__main__':
         print("must_have_letter must be 1 character long.")
         sys.exit(1)
 
-    # print(f"valid: {valid}, must_have: {must_have}")
-    english_words = load_words()
-    print("\n".join(sorted(solve(english_words, valid, must_have))))
-    # print(list(solve(["testing", "block", "lack", "howdy", "black", "wok", "law", "back"], "bawcokl", "l")))
+
+    word_list = load_words(word_list_path)
+    print("\n".join(sorted(solve(word_list, valid, must_have))))
 
 
